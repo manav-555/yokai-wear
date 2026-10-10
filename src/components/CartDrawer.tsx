@@ -3,6 +3,7 @@
 import { useCartStore } from "@/lib/cart-store";
 import { X, Trash2, ArrowRight, ShieldCheck, Clock } from "lucide-react";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function CartDrawer() {
   const { isOpen, closeCart, items, removeItem, totalPrice, totalCount } = useCartStore();
@@ -129,15 +130,14 @@ export default function CartDrawer() {
                 <span className="text-[#e11d48]">FREE FOR DROP 001</span>
               </div>
 
-              <button
-                onClick={() => {
-                  alert("Proceeding to One-Click Guest Checkout (Razorpay / Stripe)!");
-                }}
+              <Link
+                href="/checkout"
+                onClick={closeCart}
                 className="flex w-full items-center justify-center gap-2 rounded bg-[#e11d48] py-3.5 font-spec text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-[#be123c]"
               >
-                <span>ONE-CLICK GUEST CHECKOUT</span>
+                <span>PROCEED TO GUEST CHECKOUT</span>
                 <ArrowRight className="h-4 w-4" />
-              </button>
+              </Link>
 
               <div className="mt-3 flex items-center justify-center gap-2 text-[10px] font-spec text-[#71717a]">
                 <ShieldCheck className="h-3.5 w-3.5 text-green-500" />
