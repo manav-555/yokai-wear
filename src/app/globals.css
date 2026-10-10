@@ -1,40 +1,34 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --bg-void: #09090b;
-    --bg-surface: #121215;
-    --bg-surface-elevated: #18181b;
-    --border-line: #27272a;
-    --border-subtle: #1f1f23;
-    --text-primary: #f4f4f5;
-    --text-muted: #71717a;
-    --text-dark: #a1a1aa;
-    --accent-torii: #e11d48;
-    --accent-torii-glow: rgba(225, 29, 72, 0.25);
-    --accent-cursed: #8b5cf6;
-    --accent-cursed-glow: rgba(139, 92, 246, 0.25);
-  }
+:root {
+  --bg-void: #09090b;
+  --bg-surface: #121215;
+  --bg-surface-elevated: #18181b;
+  --border-line: #27272a;
+  --border-subtle: #1f1f23;
+  --text-primary: #f4f4f5;
+  --text-muted: #71717a;
+  --text-dark: #a1a1aa;
+  --accent-torii: #e11d48;
+  --accent-cursed: #8b5cf6;
+}
 
-  * {
-    border-color: var(--border-line);
-    box-sizing: border-box;
-  }
+* {
+  border-color: #27272a;
+  box-sizing: border-box;
+}
 
-  body {
-    background-color: var(--bg-void);
-    color: var(--text-primary);
-    font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    overflow-x: hidden;
-    position: relative;
-    selection-background-color: #e11d48;
-    selection-color: #ffffff;
-  }
+body {
+  background-color: #09090b;
+  color: #f4f4f5;
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+  position: relative;
+}
 
-  ::selection {
-    background: #e11d48;
-    color: #ffffff;
-  }
+::selection {
+  background: #e11d48;
+  color: #ffffff;
 }
 
 /* Manga Paper Film Grain Overlay */
@@ -55,15 +49,6 @@
   writing-mode: vertical-rl;
   text-orientation: upright;
   letter-spacing: 0.25em;
-}
-
-/* Glowing Accent Border Utility */
-.border-glow-torii {
-  box-shadow: 0 0 20px -5px rgba(225, 29, 72, 0.35);
-}
-
-.border-glow-cursed {
-  box-shadow: 0 0 20px -5px rgba(139, 92, 246, 0.35);
 }
 
 /* Streetwear Monospace Specifications */
