@@ -12,25 +12,55 @@ export async function POST(request: Request) {
       );
     }
 
-    // In Razorpay Test Mode:
-    // Amount is in smallest currency unit (paise: ₹1 = 100 paise)
-    const razorpayOrderId = `order_${Math.random().toString(36).substring(2, 12)}_${Date.now()}`;
+    const keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+    const keySecret = process.env.RAZORPAY_KEY_SECRET;
 
-    // Standard Razorpay Public Test Key (Sample Sandbox Key for instant testing)
-    const razorpayKeyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_sampleYokaiKey";
+    if (!keyId || !keySecret) {
+      return NextResponse.json(
+        { error: "Razorpay credentials not configured in environment" },
+        { status: 500 }
+      );
+    }
+
+    // Call official Razorpay Orders API with Basic Auth
+    const amountInPaise = Math.round(amount * 100);
+    const auth = Buffer.from(`${keyId}:${keySecret}`).toString("base64");
+
+    const razorpayResponse = await fetch("https://api.razorpay.com/v1/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${auth}`,
+      },
+      body: JSON.stringify({
+        amount: amountInPaise,
+        currency,
+        receipt: `rcpt_${Date.now()}`,
+        notes: notes || { brand: "Yokai Wear", drop: "Drop 001" },
+      }),
+    });
+
+    const razorpayOrder = await razorpayResponse.json();
+
+    if (!razorpayResponse.ok) {
+      console.error("Razorpay API Error:", razorpayOrder);
+      return NextResponse.json(
+        { error: razorpayOrder.error?.description || "Razorpay rejected order creation" },
+        { status: 400 }
+      );
+    }
 
     return NextResponse.json({
       success: true,
-      orderId: razorpayOrderId,
-      amount: amount * 100, // in paise
-      currency,
-      keyId: razorpayKeyId,
-      notes: notes || { brand: "Yokai Wear", drop: "Drop 001" },
+      orderId: razorpayOrder.id,
+      amount: razorpayOrder.amount,
+      currency: razorpayOrder.currency,
+      keyId,
     });
   } catch (error) {
-    console.error("Order creation error:", error);
+    console.error("Order creation route failure:", error);
     return NextResponse.json(
-      { error: "Failed to initialize payment gateway order" },
+      { error: "Internal payment processing error" },
       { status: 500 }
     );
   }
