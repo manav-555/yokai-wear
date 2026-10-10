@@ -17,7 +17,11 @@ export const metadata: Metadata = {
   description: "240-460 GSM custom-milled Japanese boxy anime apparel. Strictly numbered limited drops. Sealed in the Yokai Vault.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html
       lang="en"
